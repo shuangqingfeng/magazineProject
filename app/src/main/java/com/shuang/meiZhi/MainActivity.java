@@ -10,6 +10,8 @@ import com.shuang.meiZhi.android.AndroidFragment;
 import com.shuang.meiZhi.android.AndroidModule;
 import com.shuang.meiZhi.android.AndroidPresenter;
 import com.shuang.meiZhi.beauty.MeiZhiFragment;
+import com.shuang.meiZhi.ios.IosModule;
+import com.shuang.meiZhi.ios.IosPresenter;
 import com.shuang.meiZhi.ios.IosFragment;
 import com.shuang.meiZhi.video.VideoFragment;
 
@@ -38,6 +40,7 @@ public class MainActivity extends BaseActivity {
     private VideoFragment videoFragment;
     private FragmentManager fragmentManager;
     private AndroidPresenter androidPresenter;
+    private IosPresenter mIosPresenter;
 
     @Override
     int getContentView() {
@@ -98,6 +101,9 @@ public class MainActivity extends BaseActivity {
                     fragmentTransaction.add(R.id.fl_mainContainer, iosFragment, IOS_FRAGMENT_TAG);
                 } else {
                     fragmentTransaction.show(iosFragment);
+                }
+                if (null == mIosPresenter) {
+                    mIosPresenter = new IosPresenter(iosFragment, IosModule.getInstance());
                 }
                 break;
             case 2:

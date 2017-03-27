@@ -6,5 +6,5 @@ package com.shuang.meiZhi;
  * @date 2017/3/24
  */
 public interface IBasePresenter {
-    void onObtainData(int month,int day);
+    void onObtainData(int size,int page);
 }

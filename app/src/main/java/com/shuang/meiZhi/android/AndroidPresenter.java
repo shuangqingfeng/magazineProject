@@ -1,6 +1,7 @@
 package com.shuang.meiZhi.android;
 
 import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.AndroidBean;
 
 import java.util.Calendar;
@@ -22,20 +23,19 @@ public class AndroidPresenter implements IAndroidContract.IAndroidPresenter {
     }
 
     @Override
-    public void onObtainData(int month,int day) {
-        iAndroidView.onRefresh(1);
-//        取得系统日期:
-
-        androidModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<AndroidBean>() {
+    public void onObtainData(int size, int page) {
+        iAndroidView.onRefresh(RefreshConstantField.REFRESHING);
+        androidModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<AndroidBean>() {
 
             @Override
             public void onResult(AndroidBean object) {
+                iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
                 iAndroidView.onResultSuccess(object);
             }
 
             @Override
             public void onResultNoAvailable() {
-                iAndroidView.onRefresh(0);
+                iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
             }
         });
     }

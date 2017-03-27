@@ -1,7 +1,6 @@
 package com.shuang.meiZhi.adapter;
 
 import android.support.annotation.NonNull;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.entity.IOSBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,10 +20,10 @@ import me.drakeet.multitype.ItemViewBinder;
 
 /**
  * @author feng
- * @Description:
+ * @Description: ios 数据适配器
  * @date 2017/3/23
  */
-public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBean, AndroidItemViewBinder.AndroidViewHolder> {
+public class IosItemViewBinder extends ItemViewBinder<IOSBean.ResultsBean, IosItemViewBinder.AndroidViewHolder> {
 
 
     @NonNull
@@ -38,7 +35,7 @@ public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBea
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AndroidViewHolder holder, @NonNull AndroidBean.ResultsBean item) {
+    protected void onBindViewHolder(@NonNull AndroidViewHolder holder, @NonNull IOSBean.ResultsBean item) {
         Glide.with(holder.screenShot.getContext())
                 .load(item.getImages() != null ? item.getImages().get(0) : null)
                 .centerCrop()
