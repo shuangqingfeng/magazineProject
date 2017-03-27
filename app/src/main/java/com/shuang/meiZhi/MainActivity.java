@@ -9,6 +9,8 @@ import android.widget.RadioGroup;
 import com.shuang.meiZhi.android.AndroidFragment;
 import com.shuang.meiZhi.android.AndroidModule;
 import com.shuang.meiZhi.android.AndroidPresenter;
+import com.shuang.meiZhi.beauty.BeautyModule;
+import com.shuang.meiZhi.beauty.BeautyPresenter;
 import com.shuang.meiZhi.beauty.MeiZhiFragment;
 import com.shuang.meiZhi.ios.IosModule;
 import com.shuang.meiZhi.ios.IosPresenter;
@@ -113,6 +115,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     fragmentTransaction.show(meiZhiFragment);
                 }
+                BeautyPresenter beautyPresenter = new BeautyPresenter(meiZhiFragment, BeautyModule.getInstance());
                 break;
             case 3:
                 if (null == videoFragment) {
