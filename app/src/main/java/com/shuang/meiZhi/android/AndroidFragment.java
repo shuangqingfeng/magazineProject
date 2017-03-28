@@ -59,8 +59,6 @@ public class AndroidFragment extends BaseFragment implements IAndroidContract.IA
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-
             boolean isBottomed = mLinearLayoutManager.findLastVisibleItemPosition()
                     >= recyclerView.getAdapter().getItemCount() - 1;
             if (!swipeRefresh.isRefreshing() && isBottomed) {

@@ -1,5 +1,6 @@
 package com.shuang.meiZhi.android;
 
+import com.orhanobut.logger.Logger;
 import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.dataApi.MeiZhiRetrofit;
 import com.shuang.meiZhi.entity.AndroidBean;
@@ -27,16 +28,19 @@ public class AndroidModule implements IDataSource<AndroidBean> {
         MeiZhiRetrofit.getMeiZhiApi().getAndroidData(size, pag).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AndroidBean>() {
             @Override
             public void onCompleted() {
+                Logger.d("------------>onCompleted");
                 loadResultSourceCallBack.onResultNoAvailable();
             }
 
             @Override
             public void onError(Throwable e) {
+                Logger.d("------------>onError");
                 loadResultSourceCallBack.onResultNoAvailable();
             }
 
             @Override
             public void onNext(AndroidBean androidBean) {
+                Logger.d("------------>onNext");
                 loadResultSourceCallBack.onResult(androidBean);
             }
         });
