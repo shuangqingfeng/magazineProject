@@ -9,9 +9,10 @@ import android.widget.RadioGroup;
 import com.shuang.meiZhi.android.AndroidFragment;
 import com.shuang.meiZhi.android.AndroidModule;
 import com.shuang.meiZhi.android.AndroidPresenter;
+import com.shuang.meiZhi.base.BaseActivity;
 import com.shuang.meiZhi.beauty.BeautyModule;
 import com.shuang.meiZhi.beauty.BeautyPresenter;
-import com.shuang.meiZhi.beauty.MeiZhiFragment;
+import com.shuang.meiZhi.beauty.BeautyFragment;
 import com.shuang.meiZhi.ios.IosModule;
 import com.shuang.meiZhi.ios.IosPresenter;
 import com.shuang.meiZhi.ios.IosFragment;
@@ -38,14 +39,14 @@ public class MainActivity extends BaseActivity {
     RadioButton itemVideo;
     private AndroidFragment androidFragment;
     private IosFragment iosFragment;
-    private MeiZhiFragment meiZhiFragment;
+    private BeautyFragment meiZhiFragment;
     private VideoFragment videoFragment;
     private FragmentManager fragmentManager;
     private AndroidPresenter androidPresenter;
     private IosPresenter mIosPresenter;
 
     @Override
-    int getContentView() {
+    protected int getContentView() {
         return R.layout.activity_main;
     }
 
@@ -110,7 +111,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case 2:
                 if (null == meiZhiFragment) {
-                    meiZhiFragment = new MeiZhiFragment();
+                    meiZhiFragment = new BeautyFragment();
                     fragmentTransaction.add(R.id.fl_mainContainer, meiZhiFragment, MEI_ZHI_FRAGMENT_TAG);
                 } else {
                     fragmentTransaction.show(meiZhiFragment);

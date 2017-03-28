@@ -5,7 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.shuang.meiZhi.BaseFragment;
+import com.shuang.meiZhi.base.BaseFragment;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.adapter.IosItemViewBinder;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;

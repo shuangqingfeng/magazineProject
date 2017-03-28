@@ -1,9 +1,8 @@
 package com.shuang.meiZhi.beauty;
 
-import com.shuang.meiZhi.IBasePresenter;
-import com.shuang.meiZhi.IBaseRefreshView;
-import com.shuang.meiZhi.IBaseView;
-import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.base.IBasePresenter;
+import com.shuang.meiZhi.base.IBaseRefreshView;
+import com.shuang.meiZhi.base.IBaseView;
 import com.shuang.meiZhi.entity.BeautyBean;
 
 /**

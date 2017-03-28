@@ -1,4 +1,4 @@
-package com.shuang.meiZhi;
+package com.shuang.meiZhi.base;
 
 /**
  * @author feng

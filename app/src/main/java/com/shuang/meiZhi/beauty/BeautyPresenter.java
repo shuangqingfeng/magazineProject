@@ -1,9 +1,8 @@
 package com.shuang.meiZhi.beauty;
 
-import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.base.IDataSource;
+import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.BeautyBean;
-
-import javax.sql.DataSource;
 
 /**
  * @author feng
@@ -13,15 +12,28 @@ import javax.sql.DataSource;
 
 public class BeautyPresenter implements IBeautyContract.IBeautyPersenter {
     private IBeautyContract.IBeautyView mBeautyView;
-    private IDataSource<BeautyBean> mIDataSource;
+    private BeautyModule mBeautyModule;
 
-    public BeautyPresenter(IBeautyContract.IBeautyView iBeautyView, IDataSource<BeautyBean> iDataSource) {
+    public BeautyPresenter(IBeautyContract.IBeautyView iBeautyView, BeautyModule beautyModule) {
         this.mBeautyView = iBeautyView;
-        this.mIDataSource = iDataSource;
+        this.mBeautyModule = beautyModule;
+        mBeautyView.setPresenter(this);
     }
 
     @Override
     public void onObtainData(int size, int page) {
-//        mIDataSource.loadDataSource();
+        mBeautyView.onRefresh(RefreshConstantField.REFRESHING);
+        mBeautyModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<BeautyBean>() {
+            @Override
+            public void onResult(BeautyBean object) {
+                mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                mBeautyView.onResultSuccess(object);
+            }
+
+            @Override
+            public void onResultNoAvailable() {
+
+            }
+        });
     }
 }

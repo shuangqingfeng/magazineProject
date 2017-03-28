@@ -1,6 +1,7 @@
 package com.shuang.meiZhi.dataApi;
 
 import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.entity.BeautyBean;
 import com.shuang.meiZhi.entity.IOSBean;
 
 import retrofit2.http.GET;
@@ -19,4 +20,6 @@ public interface MeiZhiApi {
 
     @GET("data/iOS/{size}/{pag}")
     Observable<IOSBean> getIosData(@Path("size") int size, @Path("pag") int pag);
+    @GET("data/福利/{size}/{pag}")
+    Observable<BeautyBean> getBeautyData(@Path("size") int size, @Path("pag") int pag);
 }

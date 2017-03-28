@@ -1,21 +1,18 @@
 package com.shuang.meiZhi.android;
 
 
-import android.support.annotation.Size;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.orhanobut.logger.Logger;
-import com.shuang.meiZhi.BaseFragment;
+import com.shuang.meiZhi.base.BaseFragment;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.adapter.AndroidItemViewBinder;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.AndroidBean;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,7 +67,6 @@ public class AndroidFragment extends BaseFragment implements IAndroidContract.IA
                 if (!mIsFirstTimeTouchBottom) {
                     Logger.d("----上啦加载");
                     if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING) {
-                        swipeRefresh.setRefreshing(true);
                         presenter.onObtainData(PRELOAD_SIZE, ++mPage);
                     }
                 } else {

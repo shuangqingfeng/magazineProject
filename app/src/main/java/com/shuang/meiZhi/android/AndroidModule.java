@@ -1,7 +1,6 @@
 package com.shuang.meiZhi.android;
 
-import com.orhanobut.logger.Logger;
-import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.dataApi.MeiZhiRetrofit;
 import com.shuang.meiZhi.entity.AndroidBean;
 

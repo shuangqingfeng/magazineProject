@@ -1,6 +1,6 @@
 package com.shuang.meiZhi.ios;
 
-import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.IOSBean;
 

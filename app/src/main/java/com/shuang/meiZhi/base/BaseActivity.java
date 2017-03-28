@@ -1,4 +1,4 @@
-package com.shuang.meiZhi;
+package com.shuang.meiZhi.base;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
+
+import com.shuang.meiZhi.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initData();
 
-    abstract int getContentView();
+    protected abstract int getContentView();
 
     protected void setAppBarUpEnabled(boolean showHomeAsUp) {
         mBar.setDisplayHomeAsUpEnabled(showHomeAsUp);

@@ -1,12 +1,11 @@
 package com.shuang.meiZhi.ios;
 
-import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.dataApi.MeiZhiRetrofit;
 import com.shuang.meiZhi.entity.IOSBean;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author feng

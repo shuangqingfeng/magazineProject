@@ -1,9 +1,12 @@
 package com.shuang.meiZhi.beauty;
 
-import com.shuang.meiZhi.IDataSource;
+import com.shuang.meiZhi.base.IDataSource;
+import com.shuang.meiZhi.dataApi.MeiZhiRetrofit;
 import com.shuang.meiZhi.entity.BeautyBean;
+import com.shuang.meiZhi.entity.IOSBean;
 
-import javax.sql.DataSource;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author feng
@@ -22,7 +25,23 @@ public class BeautyModule implements IDataSource<BeautyBean> {
     }
 
     @Override
-    public void loadDataSource(int size, int pag, LoadResultSourceCallBack<BeautyBean> oadResultSourceCallBack) {
+    public void loadDataSource(int size, int pag, final LoadResultSourceCallBack<BeautyBean> loadResultSourceCallBack) {
+        MeiZhiRetrofit.getMeiZhiApi().getBeautyData(size, pag)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BeautyBean>() {
+            @Override
+            public void onCompleted() {
+                loadResultSourceCallBack.onResultNoAvailable();
+            }
 
+            @Override
+            public void onError(Throwable e) {
+                loadResultSourceCallBack.onResultNoAvailable();
+            }
+
+            @Override
+            public void onNext(BeautyBean beautyBean) {
+                loadResultSourceCallBack.onResult(beautyBean);
+            }
+        });
     }
 }

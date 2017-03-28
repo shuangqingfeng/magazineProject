@@ -1,7 +1,7 @@
 package com.shuang.meiZhi.video;
 
 
-import com.shuang.meiZhi.BaseFragment;
+import com.shuang.meiZhi.base.BaseFragment;
 import com.shuang.meiZhi.R;
 
 /**
