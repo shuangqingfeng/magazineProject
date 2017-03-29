@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.entity.AndroidBean;
 import com.shuang.meiZhi.entity.IOSBean;
+import com.shuang.meiZhi.utils.GlideBitmapLoadUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +37,7 @@ public class IosItemViewBinder extends ItemViewBinder<IOSBean.ResultsBean, IosIt
 
     @Override
     protected void onBindViewHolder(@NonNull AndroidViewHolder holder, @NonNull IOSBean.ResultsBean item) {
-        Glide.with(holder.screenShot.getContext())
-                .load(item.getImages() != null ? item.getImages().get(0) : null)
-                .centerCrop()
-                .into(holder.screenShot);
+        GlideBitmapLoadUtils.loadIntoImageView(holder.screenShot,item.getImages() != null ? item.getImages().get(0) : null);
         holder.author.setText(item.getWho());
         holder.dataTime.setText(item.getCreatedAt());
         holder.describe.setText(item.getDesc());

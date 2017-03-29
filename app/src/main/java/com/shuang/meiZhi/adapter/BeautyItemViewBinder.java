@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.entity.BeautyBean;
+import com.shuang.meiZhi.utils.GlideBitmapLoadUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,9 +33,7 @@ public class BeautyItemViewBinder extends ItemViewBinder<BeautyBean.ResultsBean,
 
     @Override
     protected void onBindViewHolder(@NonNull BeautyViewHolder holder, @NonNull BeautyBean.ResultsBean item) {
-        Glide.with(holder.beautyBitmap.getContext())
-                .load(item.getUrl()).centerCrop()
-                .into(holder.beautyBitmap);
+        GlideBitmapLoadUtils.loadIntoImageView(holder.beautyBitmap, item.getUrl());
     }
 
     static class BeautyViewHolder extends RecyclerView.ViewHolder {

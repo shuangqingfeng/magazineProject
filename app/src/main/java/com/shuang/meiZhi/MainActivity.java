@@ -1,5 +1,6 @@
 package com.shuang.meiZhi;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
@@ -48,6 +49,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
     }
 
     @Override

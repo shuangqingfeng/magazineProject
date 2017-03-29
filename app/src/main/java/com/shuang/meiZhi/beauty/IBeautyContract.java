@@ -14,6 +14,7 @@ import com.shuang.meiZhi.entity.BeautyBean;
 public interface IBeautyContract {
     interface IBeautyView extends IBaseView<IBeautyPersenter>, IBaseRefreshView {
         void onResultSuccess(BeautyBean beautyBean);
+
         void onResultFail(Exception e);
     }
 

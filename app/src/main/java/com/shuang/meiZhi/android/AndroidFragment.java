@@ -1,6 +1,7 @@
 package com.shuang.meiZhi.android;
 
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import me.drakeet.multitype.MultiTypeAdapter;
+import rx.Subscription;
 
 /**
  * @author feng
@@ -44,7 +46,7 @@ public class AndroidFragment extends BaseFragment implements IAndroidContract.IA
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         androidRecyclerView.setLayoutManager(mLinearLayoutManager);
         androidAdapter = new MultiTypeAdapter();
@@ -130,9 +132,14 @@ public class AndroidFragment extends BaseFragment implements IAndroidContract.IA
     }
 
     @Override
-    public void onDestroy() {
-        androidRecyclerView.removeOnScrollListener(mOnBottomScrollListener);
-        super.onDestroy();
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (null != androidRecyclerView) {
+            androidRecyclerView.removeOnScrollListener(mOnBottomScrollListener);
+        }
+        if (null != presenter.getCompositeSuscription()) {
+            presenter.getCompositeSuscription().unsubscribe();
+        }
     }
+
 }

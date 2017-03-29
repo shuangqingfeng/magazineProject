@@ -1,6 +1,8 @@
 package com.shuang.meiZhi.video;
 
 
+import android.os.Bundle;
+
 import com.shuang.meiZhi.base.BaseFragment;
 import com.shuang.meiZhi.R;
 
@@ -11,7 +13,7 @@ import com.shuang.meiZhi.R;
  */
 public class VideoFragment extends BaseFragment {
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
     }
 

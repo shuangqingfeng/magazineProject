@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.utils.GlideBitmapLoadUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,15 +40,11 @@ public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBea
 
     @Override
     protected void onBindViewHolder(@NonNull AndroidViewHolder holder, @NonNull AndroidBean.ResultsBean item) {
-        Glide.with(holder.screenShot.getContext())
-                .load(item.getImages() != null ? item.getImages().get(0) : null)
-                .centerCrop()
-                .into(holder.screenShot);
+        GlideBitmapLoadUtils.loadIntoImageView(holder.screenShot, item.getImages() != null ? item.getImages().get(0) : null);
         holder.author.setText(item.getWho());
         holder.dataTime.setText(item.getCreatedAt());
         holder.describe.setText(item.getDesc());
     }
-
 
     static class AndroidViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_screenShot)
@@ -56,7 +53,6 @@ public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBea
         TextView author;
         @BindView(R.id.tv_dataTime)
         TextView dataTime;
-
         @BindView(R.id.tv_describe)
         TextView describe;
 

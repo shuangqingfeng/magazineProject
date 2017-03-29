@@ -5,6 +5,7 @@ import com.shuang.meiZhi.dataApi.MeiZhiRetrofit;
 import com.shuang.meiZhi.entity.IOSBean;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -22,8 +23,8 @@ public class IosModule implements IDataSource<IOSBean> {
     }
 
     @Override
-    public void loadDataSource(int size, int pag, final LoadResultSourceCallBack<IOSBean> loadResultSourceCallBack) {
-        MeiZhiRetrofit.getMeiZhiApi().getIosData(size, pag)
+    public Subscription loadDataSource(int size, int pag, final LoadResultSourceCallBack<IOSBean> loadResultSourceCallBack) {
+       return MeiZhiRetrofit.getMeiZhiApi().getIosData(size, pag)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<IOSBean>() {
                     @Override
@@ -41,5 +42,6 @@ public class IosModule implements IDataSource<IOSBean> {
                         loadResultSourceCallBack.onResult(iosBean);
                     }
                 });
+
     }
 }

@@ -1,5 +1,7 @@
 package com.shuang.meiZhi.base;
 
+import rx.Subscription;
+
 /**
  * @author feng
  * @Description:

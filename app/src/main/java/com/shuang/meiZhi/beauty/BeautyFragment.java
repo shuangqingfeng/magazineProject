@@ -1,8 +1,8 @@
 package com.shuang.meiZhi.beauty;
 
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -18,7 +18,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import me.drakeet.multitype.MultiTypeAdapter;
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 
 /**
  * @author feng
@@ -42,7 +41,7 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
     private BeautyOnButtonListener mBeautyOnButtonListener;
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mGridLayoutManager = new StaggeredGridLayoutManager(SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         beautyDataShow.setLayoutManager(mGridLayoutManager);
         mBeautyAdapter = new MultiTypeAdapter();
@@ -126,8 +125,13 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
 
     @Override
     public void onDestroy() {
-        beautyDataShow.removeOnScrollListener(mBeautyOnButtonListener);
         super.onDestroy();
+        if (null != beautyDataShow) {
+            beautyDataShow.removeOnScrollListener(mBeautyOnButtonListener);
+        }
+        if (null != mIBeautyPersenter.getCompositeSuscription()) {
+            mIBeautyPersenter.getCompositeSuscription().unsubscribe();
+        }
 
     }
 }

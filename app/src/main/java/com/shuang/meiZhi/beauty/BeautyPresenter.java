@@ -4,6 +4,9 @@ import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.BeautyBean;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * @author feng
  * @Description:
@@ -13,6 +16,7 @@ import com.shuang.meiZhi.entity.BeautyBean;
 public class BeautyPresenter implements IBeautyContract.IBeautyPersenter {
     private IBeautyContract.IBeautyView mBeautyView;
     private BeautyModule mBeautyModule;
+    private CompositeSubscription mCompositeSubscription;
 
     public BeautyPresenter(IBeautyContract.IBeautyView iBeautyView, BeautyModule beautyModule) {
         this.mBeautyView = iBeautyView;
@@ -23,7 +27,7 @@ public class BeautyPresenter implements IBeautyContract.IBeautyPersenter {
     @Override
     public void onObtainData(int size, int page) {
         mBeautyView.onRefresh(RefreshConstantField.REFRESHING);
-        mBeautyModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<BeautyBean>() {
+        addSubscription(mBeautyModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<BeautyBean>() {
             @Override
             public void onResult(BeautyBean object) {
                 mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
@@ -32,8 +36,20 @@ public class BeautyPresenter implements IBeautyContract.IBeautyPersenter {
 
             @Override
             public void onResultNoAvailable() {
-
             }
-        });
+        }));
+    }
+
+    @Override
+    public void addSubscription(Subscription subscription) {
+        if (null == mCompositeSubscription) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public CompositeSubscription getCompositeSuscription() {
+        return mCompositeSubscription;
     }
 }

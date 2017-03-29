@@ -5,6 +5,8 @@ import com.shuang.meiZhi.base.IBaseRefreshView;
 import com.shuang.meiZhi.base.IBaseView;
 import com.shuang.meiZhi.entity.AndroidBean;
 
+import rx.Subscription;
+
 /**
  * @author feng
  * @Description: andrid 契约类
@@ -15,6 +17,7 @@ public interface IAndroidContract {
         void onResultSuccess(AndroidBean androidBean);
 
         void onResultFail(Exception e);
+
     }
 
     interface IAndroidPresenter extends IBasePresenter {

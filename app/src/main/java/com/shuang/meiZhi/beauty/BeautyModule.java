@@ -6,6 +6,7 @@ import com.shuang.meiZhi.entity.BeautyBean;
 import com.shuang.meiZhi.entity.IOSBean;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -25,23 +26,24 @@ public class BeautyModule implements IDataSource<BeautyBean> {
     }
 
     @Override
-    public void loadDataSource(int size, int pag, final LoadResultSourceCallBack<BeautyBean> loadResultSourceCallBack) {
-        MeiZhiRetrofit.getMeiZhiApi().getBeautyData(size, pag)
+    public Subscription loadDataSource(int size, int pag, final LoadResultSourceCallBack<BeautyBean> loadResultSourceCallBack) {
+        return MeiZhiRetrofit.getMeiZhiApi().getBeautyData(size, pag)
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BeautyBean>() {
-            @Override
-            public void onCompleted() {
-                loadResultSourceCallBack.onResultNoAvailable();
-            }
+                    @Override
+                    public void onCompleted() {
+                        loadResultSourceCallBack.onResultNoAvailable();
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                loadResultSourceCallBack.onResultNoAvailable();
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        loadResultSourceCallBack.onResultNoAvailable();
+                    }
 
-            @Override
-            public void onNext(BeautyBean beautyBean) {
-                loadResultSourceCallBack.onResult(beautyBean);
-            }
-        });
+                    @Override
+                    public void onNext(BeautyBean beautyBean) {
+                        loadResultSourceCallBack.onResult(beautyBean);
+                    }
+                });
+
     }
 }

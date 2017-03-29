@@ -1,5 +1,7 @@
 package com.shuang.meiZhi.base;
 
+import rx.Subscription;
+
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
@@ -20,6 +22,6 @@ public interface IDataSource<T> {
         void onResultNoAvailable();
     }
 
-    void loadDataSource(int size, int pag, LoadResultSourceCallBack<T> oadResultSourceCallBack);
+    Subscription loadDataSource(int size, int pag, LoadResultSourceCallBack<T> oadResultSourceCallBack);
 
 }

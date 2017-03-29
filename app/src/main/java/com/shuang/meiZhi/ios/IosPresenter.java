@@ -4,14 +4,18 @@ import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.IOSBean;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * @author feng
- * @Description:
+ * @Description: ios 页面数据和视图的交互
  * @date 2017/3/27
  */
 public class IosPresenter implements IIosContract.IIosPresenter {
     private IIosContract.IIosView mView;
     private IosModule mIosModule;
+    private CompositeSubscription mCompositeSubscription;
 
     public IosPresenter(IIosContract.IIosView iosView, IosModule iosModule) {
         this.mView = iosView;
@@ -22,7 +26,7 @@ public class IosPresenter implements IIosContract.IIosPresenter {
     @Override
     public void onObtainData(int month, int day) {
         mView.onRefresh(RefreshConstantField.REFRESHING);
-        mIosModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<IOSBean>() {
+        addSubscription(mIosModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<IOSBean>() {
             @Override
             public void onResult(IOSBean object) {
                 mView.onResultSuccess(object);
@@ -32,6 +36,19 @@ public class IosPresenter implements IIosContract.IIosPresenter {
             public void onResultNoAvailable() {
                 mView.onRefresh(RefreshConstantField.NO_REFRESHING);
             }
-        });
+        }));
+    }
+
+    @Override
+    public void addSubscription(Subscription subscription) {
+        if (null == mCompositeSubscription) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public CompositeSubscription getCompositeSuscription() {
+        return mCompositeSubscription;
     }
 }

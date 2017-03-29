@@ -13,6 +13,9 @@ import com.shuang.meiZhi.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author feng
@@ -24,18 +27,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     AppBarLayout mAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
     private ActionBar mBar;
+    private Unbinder mButterrKnifeUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getContentView());
-        ButterKnife.bind(this);
+        mButterrKnifeUnbinder = ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         mBar = getSupportActionBar();
+        initView(savedInstanceState);
         initData();
     }
+
+    protected abstract void initView(Bundle savedInstanceState);
 
     protected abstract void initData();
 
@@ -51,9 +59,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onSupportNavigateUp() {
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != mButterrKnifeUnbinder) {
+            mButterrKnifeUnbinder.unbind();
+        }
+
     }
 }

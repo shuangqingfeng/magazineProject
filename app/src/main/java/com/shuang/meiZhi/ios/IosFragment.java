@@ -1,6 +1,7 @@
 package com.shuang.meiZhi.ios;
 
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,7 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
     private boolean mIsFirstTimeTouchBottom = true;
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         iosDataShow.setLayoutManager(mLinearLayoutManager);
         iosAdapter = new MultiTypeAdapter();
@@ -135,7 +136,13 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
 
     @Override
     public void onDestroy() {
-        iosDataShow.removeOnScrollListener(mOnScrollBottomListener);
         super.onDestroy();
+        if (null != iosDataShow) {
+            iosDataShow.removeOnScrollListener(mOnScrollBottomListener);
+        }
+
+        if (null != mIosPresenter.getCompositeSuscription()) {
+            mIosPresenter.getCompositeSuscription().unsubscribe();
+        }
     }
 }
