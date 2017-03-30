@@ -1,17 +1,26 @@
 package com.shuang.meiZhi.beauty;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 import com.shuang.meiZhi.adapter.BeautyItemViewBinder;
 import com.shuang.meiZhi.base.BaseFragment;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
+import com.shuang.meiZhi.entity.AndroidBean;
 import com.shuang.meiZhi.entity.BeautyBean;
+import com.shuang.meiZhi.event.OnTouchEventClickListener;
+import com.shuang.meiZhi.photoDetails.BeautyPhotoDetailsActivity;
+import com.shuang.meiZhi.photoDetails.PhotoDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +77,35 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
                     mBeanLists.clear();
                 }
                 mIBeautyPersenter.onObtainData(PRELOAD_SIZE, mPage);
-
-
             }
         });
+        BeautyItemViewBinder.setOnTouchEventListener(new OnTouchEventClickListener<BeautyBean.ResultsBean>() {
+            @Override
+            public void onEventClick(BeautyBean.ResultsBean object, View... views) {
+                View view = views[0];
+                ImageView imageView = (ImageView) views[1];
+                if (imageView == null) {
+                    return;
+                }
+                if (view.getId() == imageView.getId()) {
+                    startPictureActivity(object, imageView);
+                }
+            }
+
+
+        });
+    }
+
+    private void startPictureActivity(BeautyBean.ResultsBean object, View shot) {
+        Intent intent = BeautyPhotoDetailsActivity.newIntent(getActivity(), object.getUrl(), object.getDesc());
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), shot, PhotoDetailsActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            startActivity(intent);
+        }
     }
 
     @Override

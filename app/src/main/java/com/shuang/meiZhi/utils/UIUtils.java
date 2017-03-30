@@ -86,12 +86,12 @@ public class UIUtils {
      * @param context 上下文
      * @param clazz   开启的 activity
      * @param bundle  传递的数据 可以是 null
-     * @param isData  是否传递数据 true 传递，false 不传递
+     *
      */
-    public static void startActivity(Context context, Class<?> clazz, Bundle bundle, boolean isData) {
+    public static void startActivity(Context context, Class<?> clazz, Bundle bundle) {
         Intent mIntent = new Intent(context, clazz);
-        if (isData) {
-            mIntent.putExtras(bundle);
+        if (null != bundle) {
+            mIntent.putExtra("bundle",bundle);
             context.startActivity(mIntent);
         } else {
             context.startActivity(mIntent);

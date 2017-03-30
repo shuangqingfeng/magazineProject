@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.event.OnTouchEventClickListener;
 import com.shuang.meiZhi.utils.GlideBitmapLoadUtils;
 
 import butterknife.BindView;
@@ -28,7 +29,7 @@ import me.drakeet.multitype.ItemViewBinder;
  * @date 2017/3/23
  */
 public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBean, AndroidItemViewBinder.AndroidViewHolder> {
-
+    private static OnTouchEventClickListener<AndroidBean.ResultsBean> mClickListener;
 
     @NonNull
     @Override
@@ -40,13 +41,19 @@ public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBea
 
     @Override
     protected void onBindViewHolder(@NonNull AndroidViewHolder holder, @NonNull AndroidBean.ResultsBean item) {
+        holder.mResultsBean = item;
         GlideBitmapLoadUtils.loadIntoImageView(holder.screenShot, item.getImages() != null ? item.getImages().get(0) : null);
         holder.author.setText(item.getWho());
         holder.dataTime.setText(item.getCreatedAt());
         holder.describe.setText(item.getDesc());
     }
 
-    static class AndroidViewHolder extends RecyclerView.ViewHolder {
+    public static void setOnTouchEventClickListener(OnTouchEventClickListener<AndroidBean.ResultsBean> listener) {
+        mClickListener = listener;
+    }
+
+    static class AndroidViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        View view;
         @BindView(R.id.iv_screenShot)
         ImageView screenShot;
         @BindView(R.id.tv_author)
@@ -55,10 +62,21 @@ public class AndroidItemViewBinder extends ItemViewBinder<AndroidBean.ResultsBea
         TextView dataTime;
         @BindView(R.id.tv_describe)
         TextView describe;
+        AndroidBean.ResultsBean mResultsBean;
 
         public AndroidViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             ButterKnife.bind(this, itemView);
+            view.setOnClickListener(this);
+            screenShot.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mClickListener.onEventClick(mResultsBean, v,view, screenShot);
         }
     }
+
+
 }
