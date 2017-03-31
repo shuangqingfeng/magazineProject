@@ -1,6 +1,7 @@
 package com.shuang.meiZhi.webView;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -33,6 +34,16 @@ public class WebViewActivity extends BaseActivity {
     private LinearLayout.LayoutParams mProgressParams;
     private ProgressBar mProgressBar;
     private WebSettings mSettings;
+
+    @Override
+    protected void initToolbar(Toolbar toolbar) {
+
+    }
+
+    @Override
+    public boolean canBack() {
+        return true;
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -103,7 +114,7 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected int getContentView() {
+    protected int getContainerId() {
         return R.layout.activity_web_view;
     }
 

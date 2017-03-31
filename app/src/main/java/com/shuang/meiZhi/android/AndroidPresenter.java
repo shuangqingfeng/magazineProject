@@ -1,8 +1,12 @@
 package com.shuang.meiZhi.android;
 
+import com.orhanobut.logger.Logger;
+import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.AndroidBean;
+import com.shuang.meiZhi.utils.PhoneStatusUtils;
+import com.shuang.meiZhi.utils.UIUtils;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -26,19 +30,27 @@ public class AndroidPresenter implements IAndroidContract.IAndroidPresenter {
 
     @Override
     public void onObtainData(int size, int page) {
-        iAndroidView.onRefresh(RefreshConstantField.REFRESHING);
-        addSubscription(androidModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<AndroidBean>() {
-            @Override
-            public void onResult(AndroidBean object) {
-                iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
-                iAndroidView.onResultSuccess(object);
-            }
+        if (PhoneStatusUtils.isNetworkConnected()) {
+            iAndroidView.onRefresh(RefreshConstantField.REFRESHING);
+            addSubscription(androidModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<AndroidBean>() {
+                @Override
+                public void onResult(AndroidBean object) {
+                    iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                    iAndroidView.onResultSuccess(object);
+                }
 
-            @Override
-            public void onResultNoAvailable() {
-                iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
-            }
-        }));
+                @Override
+                public void onResultNoAvailable(Throwable throwable) {
+                    iAndroidView.onResultFail(throwable);
+                    iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                }
+            }));
+        }else{
+            iAndroidView.onRefresh(RefreshConstantField.NO_REFRESHING);
+            iAndroidView.showMessage(UIUtils.getString(R.string.networkAvailable));
+        }
+
+
     }
 
     @Override

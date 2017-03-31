@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">magazine</string>
+    <string name="app_name">移动杂志社</string>
+    <string name="networkAvailable">网络异常，请检查网络</string>
 </resources>

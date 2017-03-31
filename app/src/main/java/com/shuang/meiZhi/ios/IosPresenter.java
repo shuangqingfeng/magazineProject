@@ -1,8 +1,11 @@
 package com.shuang.meiZhi.ios;
 
+import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.IOSBean;
+import com.shuang.meiZhi.utils.PhoneStatusUtils;
+import com.shuang.meiZhi.utils.UIUtils;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -25,18 +28,26 @@ public class IosPresenter implements IIosContract.IIosPresenter {
 
     @Override
     public void onObtainData(int month, int day) {
-        mView.onRefresh(RefreshConstantField.REFRESHING);
-        addSubscription(mIosModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<IOSBean>() {
-            @Override
-            public void onResult(IOSBean object) {
-                mView.onResultSuccess(object);
-            }
+        if (PhoneStatusUtils.isNetworkConnected()) {
+            mView.onRefresh(RefreshConstantField.REFRESHING);
+            addSubscription(mIosModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<IOSBean>() {
+                @Override
+                public void onResult(IOSBean object) {
+                    mView.onResultSuccess(object);
+                }
 
-            @Override
-            public void onResultNoAvailable() {
-                mView.onRefresh(RefreshConstantField.NO_REFRESHING);
-            }
-        }));
+                @Override
+                public void onResultNoAvailable(Throwable throwable) {
+                    mView.onResultFail(throwable);
+                    mView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                }
+
+            }));
+        } else {
+            mView.onRefresh(RefreshConstantField.NO_REFRESHING);
+            mView.showMessage(UIUtils.getString(R.string.networkAvailable));
+        }
+
     }
 
     @Override

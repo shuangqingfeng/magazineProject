@@ -27,22 +27,18 @@ public class AndroidModule implements IDataSource<AndroidBean> {
 
     @Override
     public Subscription loadDataSource(int size, int pag, final LoadResultSourceCallBack<AndroidBean> loadResultSourceCallBack) {
-       return MeiZhiRetrofit.getMeiZhiApi().getAndroidData(size, pag).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AndroidBean>() {
+        return MeiZhiRetrofit.getMeiZhiApi().getAndroidData(size, pag).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AndroidBean>() {
             @Override
             public void onCompleted() {
-                Logger.d("------------>onCompleted");
-                loadResultSourceCallBack.onResultNoAvailable();
             }
 
             @Override
             public void onError(Throwable e) {
-                Logger.d("------------>onError");
-                loadResultSourceCallBack.onResultNoAvailable();
+                loadResultSourceCallBack.onResultNoAvailable(e);
             }
 
             @Override
             public void onNext(AndroidBean androidBean) {
-                Logger.d("------------>onNext");
                 loadResultSourceCallBack.onResult(androidBean);
             }
         });

@@ -31,12 +31,12 @@ public class BeautyModule implements IDataSource<BeautyBean> {
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<BeautyBean>() {
                     @Override
                     public void onCompleted() {
-                        loadResultSourceCallBack.onResultNoAvailable();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        loadResultSourceCallBack.onResultNoAvailable();
+                        loadResultSourceCallBack.onResultNoAvailable(e);
                     }
 
                     @Override

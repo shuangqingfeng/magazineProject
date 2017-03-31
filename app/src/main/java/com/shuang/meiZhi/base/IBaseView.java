@@ -10,4 +10,5 @@ import rx.Subscription;
 public interface IBaseView<T> {
     void setPresenter(T presenter);
 
+    void showMessage(String msg);
 }

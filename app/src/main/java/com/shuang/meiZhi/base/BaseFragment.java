@@ -17,7 +17,7 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author feng
- * @Description:
+ * @Description: fragment 的基类 统一管理 fragment
  * @date 2017/3/22
  */
 public abstract class BaseFragment extends Fragment {

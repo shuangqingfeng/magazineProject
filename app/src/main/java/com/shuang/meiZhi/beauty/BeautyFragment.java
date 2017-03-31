@@ -3,6 +3,7 @@ package com.shuang.meiZhi.beauty;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,6 +22,8 @@ import com.shuang.meiZhi.entity.BeautyBean;
 import com.shuang.meiZhi.event.OnTouchEventClickListener;
 import com.shuang.meiZhi.photoDetails.BeautyPhotoDetailsActivity;
 import com.shuang.meiZhi.photoDetails.PhotoDetailsActivity;
+import com.shuang.meiZhi.utils.ToastUtils;
+import com.shuang.meiZhi.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +71,9 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
     @Override
     protected void initData() {
         mBeanLists = new ArrayList<>();
-        mIBeautyPersenter.onObtainData(PRELOAD_SIZE, mPage);
+        if (null != mIBeautyPersenter) {
+            mIBeautyPersenter.onObtainData(PRELOAD_SIZE, mPage);
+        }
         beautyRefreshing.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,34 +84,9 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
                 mIBeautyPersenter.onObtainData(PRELOAD_SIZE, mPage);
             }
         });
-        BeautyItemViewBinder.setOnTouchEventListener(new OnTouchEventClickListener<BeautyBean.ResultsBean>() {
-            @Override
-            public void onEventClick(BeautyBean.ResultsBean object, View... views) {
-                View view = views[0];
-                ImageView imageView = (ImageView) views[1];
-                if (imageView == null) {
-                    return;
-                }
-                if (view.getId() == imageView.getId()) {
-                    startPictureActivity(object, imageView);
-                }
-            }
-
-
-        });
+        BeautyItemViewBinder.setOnTouchEventListener(getOnTouchEventClickListener());
     }
 
-    private void startPictureActivity(BeautyBean.ResultsBean object, View shot) {
-        Intent intent = BeautyPhotoDetailsActivity.newIntent(getActivity(), object.getUrl(), object.getDesc());
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                getActivity(), shot, PhotoDetailsActivity.TRANSIT_PIC);
-        try {
-            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            startActivity(intent);
-        }
-    }
 
     @Override
     public void onResultSuccess(BeautyBean beautyBean) {
@@ -117,8 +97,8 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
     }
 
     @Override
-    public void onResultFail(Exception e) {
-
+    public void onResultFail(Throwable throwable) {
+        showMessage(throwable.toString());
     }
 
     @Override
@@ -142,6 +122,11 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
         mIBeautyPersenter = presenter;
     }
 
+    @Override
+    public void showMessage(String msg) {
+        ToastUtils.show(msg);
+    }
+
     private class BeautyOnButtonListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -154,6 +139,37 @@ public class BeautyFragment extends BaseFragment implements IBeautyContract.IBea
                     mIsFirstTimeTouchBottom = false;
                 }
             }
+        }
+    }
+
+    @NonNull
+    private OnTouchEventClickListener<BeautyBean.ResultsBean> getOnTouchEventClickListener() {
+        return new OnTouchEventClickListener<BeautyBean.ResultsBean>() {
+            @Override
+            public void onEventClick(BeautyBean.ResultsBean object, View... views) {
+                View view = views[0];
+                ImageView imageView = (ImageView) views[1];
+                if (imageView == null) {
+                    return;
+                }
+                if (view.getId() == imageView.getId()) {
+                    startPictureActivity(object, imageView);
+                }
+            }
+
+
+        };
+    }
+
+    private void startPictureActivity(BeautyBean.ResultsBean object, View shot) {
+        Intent intent = BeautyPhotoDetailsActivity.newIntent(getActivity(), object.getUrl(), object.getDesc());
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), shot, PhotoDetailsActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            startActivity(intent);
         }
     }
 

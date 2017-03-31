@@ -16,7 +16,7 @@ public interface IAndroidContract {
     interface IAndroidView extends IBaseView<IAndroidPresenter>, IBaseRefreshView {
         void onResultSuccess(AndroidBean androidBean);
 
-        void onResultFail(Exception e);
+        void onResultFail(Throwable e);
 
     }
 

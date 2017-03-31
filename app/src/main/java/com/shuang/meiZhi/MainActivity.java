@@ -3,6 +3,7 @@ package com.shuang.meiZhi;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,6 +18,7 @@ import com.shuang.meiZhi.beauty.BeautyFragment;
 import com.shuang.meiZhi.ios.IosModule;
 import com.shuang.meiZhi.ios.IosPresenter;
 import com.shuang.meiZhi.ios.IosFragment;
+import com.shuang.meiZhi.utils.UIUtils;
 import com.shuang.meiZhi.video.VideoFragment;
 
 import butterknife.BindView;
@@ -47,8 +49,14 @@ public class MainActivity extends BaseActivity {
     private IosPresenter mIosPresenter;
 
     @Override
-    protected int getContentView() {
+    protected int getContainerId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initToolbar(Toolbar toolbar) {
+        toolbar.setTitle(UIUtils.getString(R.string.app_name));
+//        toolbar.setlog
     }
 
     @Override

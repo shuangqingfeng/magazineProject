@@ -1,8 +1,11 @@
 package com.shuang.meiZhi.beauty;
 
+import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.base.IDataSource;
 import com.shuang.meiZhi.constantPool.RefreshConstantField;
 import com.shuang.meiZhi.entity.BeautyBean;
+import com.shuang.meiZhi.utils.PhoneStatusUtils;
+import com.shuang.meiZhi.utils.UIUtils;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -26,18 +29,25 @@ public class BeautyPresenter implements IBeautyContract.IBeautyPersenter {
 
     @Override
     public void onObtainData(int size, int page) {
-        mBeautyView.onRefresh(RefreshConstantField.REFRESHING);
-        addSubscription(mBeautyModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<BeautyBean>() {
-            @Override
-            public void onResult(BeautyBean object) {
-                mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
-                mBeautyView.onResultSuccess(object);
-            }
+        if (PhoneStatusUtils.isNetworkConnected()) {
+            mBeautyView.onRefresh(RefreshConstantField.REFRESHING);
+            addSubscription(mBeautyModule.loadDataSource(size, page, new IDataSource.LoadResultSourceCallBack<BeautyBean>() {
+                @Override
+                public void onResult(BeautyBean object) {
+                    mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                    mBeautyView.onResultSuccess(object);
+                }
+                @Override
+                public void onResultNoAvailable(Throwable throwable) {
+                    mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
+                    mBeautyView.onResultFail(throwable);
+                }
+            }));
+        } else {
+            mBeautyView.onRefresh(RefreshConstantField.NO_REFRESHING);
+            mBeautyView.showMessage(UIUtils.getString(R.string.networkAvailable));
+        }
 
-            @Override
-            public void onResultNoAvailable() {
-            }
-        }));
     }
 
     @Override

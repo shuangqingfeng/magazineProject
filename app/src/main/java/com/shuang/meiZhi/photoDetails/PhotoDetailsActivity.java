@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.adapter.PhotoDetailsAdapter;
@@ -28,6 +29,11 @@ public class PhotoDetailsActivity extends BaseActivity {
     private PhotoDetailsAdapter mPhotoDetailsAdapter;
 
     @Override
+    protected void initToolbar(Toolbar toolbar) {
+
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
         mPhotoDetailsAdapter = new PhotoDetailsAdapter();
         photoDetails.setAdapter(mPhotoDetailsAdapter);
@@ -50,7 +56,7 @@ public class PhotoDetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected int getContentView() {
+    protected int getContainerId() {
         return R.layout.activity_photo_details;
     }
 

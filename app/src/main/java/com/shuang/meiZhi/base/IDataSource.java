@@ -19,7 +19,7 @@ public interface IDataSource<T> {
     interface LoadResultSourceCallBack<T> {
         void onResult(T object);
 
-        void onResultNoAvailable();
+        void onResultNoAvailable(Throwable throwable);
     }
 
     Subscription loadDataSource(int size, int pag, LoadResultSourceCallBack<T> oadResultSourceCallBack);

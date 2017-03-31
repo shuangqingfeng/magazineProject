@@ -29,12 +29,11 @@ public class IosModule implements IDataSource<IOSBean> {
                 .subscribe(new Subscriber<IOSBean>() {
                     @Override
                     public void onCompleted() {
-                        loadResultSourceCallBack.onResultNoAvailable();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        loadResultSourceCallBack.onResultNoAvailable();
+                        loadResultSourceCallBack.onResultNoAvailable(e);
                     }
 
                     @Override

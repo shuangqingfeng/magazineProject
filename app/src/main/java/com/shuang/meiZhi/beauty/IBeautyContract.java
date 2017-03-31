@@ -15,7 +15,7 @@ public interface IBeautyContract {
     interface IBeautyView extends IBaseView<IBeautyPersenter>, IBaseRefreshView {
         void onResultSuccess(BeautyBean beautyBean);
 
-        void onResultFail(Exception e);
+        void onResultFail(Throwable throwable);
     }
 
     interface IBeautyPersenter extends IBasePresenter {

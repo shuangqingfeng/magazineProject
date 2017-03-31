@@ -14,7 +14,7 @@ public interface IIosContract {
     interface IIosView extends IBaseView<IIosPresenter> ,IBaseRefreshView{
         void onResultSuccess(IOSBean iosBean);
 
-        void onResultFail(Exception e);
+        void onResultFail(Throwable e);
     }
 
     interface IIosPresenter extends IBasePresenter {

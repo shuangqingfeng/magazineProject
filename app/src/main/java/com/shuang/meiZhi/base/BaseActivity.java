@@ -1,21 +1,18 @@
 package com.shuang.meiZhi.base;
 
-import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
+import android.view.MenuItem;
 
 import com.shuang.meiZhi.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author feng
@@ -27,7 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     AppBarLayout mAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     private ActionBar mBar;
     private Unbinder mButterrKnifeUnbinder;
 
@@ -35,27 +31,40 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(getContentView());
+        setContentView(getContainerId());
         mButterrKnifeUnbinder = ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
-        mBar = getSupportActionBar();
+        if (null != mToolbar) {
+            initToolbar(mToolbar);
+            setSupportActionBar(mToolbar);
+
+        }
+        if (canBack()) {
+            mBar = getSupportActionBar();
+            if (mBar != null) mBar.setDisplayHomeAsUpEnabled(true);
+            if (Build.VERSION.SDK_INT >= 21) {
+                mBar.setElevation(10.6f);
+            }
+        }
+
         initView(savedInstanceState);
         initData();
     }
+
+    public boolean canBack() {
+        return false;
+    }
+
+    protected abstract void initToolbar(Toolbar toolbar);
 
     protected abstract void initView(Bundle savedInstanceState);
 
     protected abstract void initData();
 
-    protected abstract int getContentView();
+    protected abstract int getContainerId();
 
     protected void setAppBarUpEnabled(boolean showHomeAsUp) {
         mBar.setDisplayHomeAsUpEnabled(showHomeAsUp);
         mBar.setDisplayShowHomeEnabled(showHomeAsUp);
-    }
-
-    protected void setToolbatTitle(String toolbatTitle) {
-        mToolbar.setTitle(toolbatTitle);
     }
 
 
@@ -71,5 +80,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             mButterrKnifeUnbinder.unbind();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,7 @@ package com.shuang.meiZhi.ios;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -57,38 +58,9 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
         iosDataShow.setAdapter(iosAdapter);
         mOnScrollBottomListener = new OnScrollBottomListener();
         iosDataShow.addOnScrollListener(mOnScrollBottomListener);
-        IosItemViewBinder.setOnTouchEventClick(new OnTouchEventClickListener<IOSBean.ResultsBean>() {
-            @Override
-            public void onEventClick(IOSBean.ResultsBean object, View... views) {
-                View view = views[0];
-                View itemView = views[1];
-                View screenShot = views[2];
-                if (itemView == null) return;
-                if (null != itemView && view.getId() == itemView.getId() && null != object.getUrl()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("detailsUrl", object.getUrl());
-                    UIUtils.startActivity(getActivity(), WebViewActivity.class, bundle);
-                } else if (null != screenShot && view.getId() == screenShot.getId() && null != object.getImages()) {
-                    startPictureActivity(object, screenShot);
-                } else {
-                    ToastUtils.show("抱歉，数据丢失");
-                }
-            }
-
-
-        });
+        IosItemViewBinder.setOnTouchEventClick(getOnTouchEventClickListener());
     }
-    private void startPictureActivity(IOSBean.ResultsBean object, View shot) {
-        Intent intent = PhotoDetailsActivity.newIntent(getActivity(), object.getImages(), object.getDesc());
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                getActivity(), shot, PhotoDetailsActivity.TRANSIT_PIC);
-        try {
-            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            startActivity(intent);
-        }
-    }
+
 
     @Override
     protected int getContentView() {
@@ -124,8 +96,8 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
     }
 
     @Override
-    public void onResultFail(Exception e) {
-
+    public void onResultFail(Throwable e) {
+        showMessage(e.toString());
     }
 
     @Override
@@ -159,6 +131,11 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
         mIosPresenter = presenter;
     }
 
+    @Override
+    public void showMessage(String msg) {
+        ToastUtils.show(msg);
+    }
+
     private class OnScrollBottomListener extends RecyclerView.OnScrollListener {
 
         @Override
@@ -172,6 +149,40 @@ public class IosFragment extends BaseFragment implements IIosContract.IIosView {
                     mIsFirstTimeTouchBottom = false;
                 }
             }
+        }
+    }
+
+    @NonNull
+    private OnTouchEventClickListener<IOSBean.ResultsBean> getOnTouchEventClickListener() {
+        return new OnTouchEventClickListener<IOSBean.ResultsBean>() {
+            @Override
+            public void onEventClick(IOSBean.ResultsBean object, View... views) {
+                View view = views[0];
+                View itemView = views[1];
+                View screenShot = views[2];
+                if (itemView == null) return;
+                if (null != itemView && view.getId() == itemView.getId() && null != object.getUrl()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("detailsUrl", object.getUrl());
+                    UIUtils.startActivity(getActivity(), WebViewActivity.class, bundle);
+                } else if (null != screenShot && view.getId() == screenShot.getId() && null != object.getImages()) {
+                    startPictureActivity(object, screenShot);
+                } else {
+                    showMessage("抱歉数据丢失。。。");
+                }
+            }
+        };
+    }
+
+    private void startPictureActivity(IOSBean.ResultsBean object, View shot) {
+        Intent intent = PhotoDetailsActivity.newIntent(getActivity(), object.getImages(), object.getDesc());
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), shot, PhotoDetailsActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            startActivity(intent);
         }
     }
 
