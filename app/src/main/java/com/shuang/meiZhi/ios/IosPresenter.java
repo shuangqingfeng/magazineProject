@@ -33,6 +33,7 @@ public class IosPresenter implements IIosContract.IIosPresenter {
             addSubscription(mIosModule.loadDataSource(month, day, new IDataSource.LoadResultSourceCallBack<IOSBean>() {
                 @Override
                 public void onResult(IOSBean object) {
+                    mView.onRefresh(RefreshConstantField.NO_REFRESHING);
                     mView.onResultSuccess(object);
                 }
 

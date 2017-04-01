@@ -51,6 +51,7 @@
             android:textColor="@color/main_button_beauty_color"/>
 
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rb_itemVideo"
             style="@style/style_mainRadioButton"
             android:drawableTop="@drawable/main_button_video_selector"

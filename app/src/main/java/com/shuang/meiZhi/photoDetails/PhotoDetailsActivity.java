@@ -2,9 +2,11 @@ package com.shuang.meiZhi.photoDetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.adapter.PhotoDetailsAdapter;
@@ -27,10 +29,19 @@ public class PhotoDetailsActivity extends BaseActivity {
     @BindView(R.id.vp_photoDetails)
     ViewPager photoDetails;
     private PhotoDetailsAdapter mPhotoDetailsAdapter;
+    private ArrayList<String> imageUrl;
+    private String titleText;
 
     @Override
     protected void initToolbar(Toolbar toolbar) {
-
+        Intent intent = getIntent();
+        imageUrl = intent.getStringArrayListExtra(PhotoDetailsActivity.EXTRA_IMAGE_URL);
+        titleText = intent.getStringExtra(PhotoDetailsActivity.EXTRA_IMAGE_TITLE);
+        if (null != titleText) {
+            toolbar.setTitle(titleText);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -41,11 +52,18 @@ public class PhotoDetailsActivity extends BaseActivity {
     }
 
     @Override
+    public boolean canBack() {
+        return true;
+    }
+
+    @Override
     protected void initData() {
-        Intent intent = getIntent();
-        ArrayList<String> extra = intent.getStringArrayListExtra(PhotoDetailsActivity.EXTRA_IMAGE_URL);
-        String extra1 = intent.getStringExtra(PhotoDetailsActivity.EXTRA_IMAGE_TITLE);
-        mPhotoDetailsAdapter.setPhotos(extra);
+        if (null != imageUrl) {
+            mPhotoDetailsAdapter.setPhotos(imageUrl);
+        } else {
+            finish();
+        }
+
     }
 
     public static Intent newIntent(Context context, List<String> images, String desc) {

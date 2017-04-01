@@ -34,10 +34,18 @@ public class WebViewActivity extends BaseActivity {
     private LinearLayout.LayoutParams mProgressParams;
     private ProgressBar mProgressBar;
     private WebSettings mSettings;
+    private String mTitle;
 
     @Override
     protected void initToolbar(Toolbar toolbar) {
-
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+        if (null != bundle) {
+            mUrl = bundle.getString("detailsUrl");
+            mTitle = bundle.getString("title");
+            toolbar.setTitle(mTitle);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -79,9 +87,7 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        Bundle bundle = getIntent().getBundleExtra("bundle");
-        if (null != bundle) {
-            mUrl = bundle.getString("detailsUrl");
+        if (null != mUrl) {
             mDetails.loadUrl(mUrl);
         } else {
             finish();

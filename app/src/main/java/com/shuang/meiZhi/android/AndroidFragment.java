@@ -174,6 +174,7 @@ public class AndroidFragment extends BaseFragment implements IAndroidContract.IA
                 if (itemView == null) return;
                 if (null != itemView && view.getId() == itemView.getId() && null != object.getUrl()) {
                     Bundle bundle = new Bundle();
+                    bundle.putString("title", object.getDesc());
                     bundle.putString("detailsUrl", object.getUrl());
                     UIUtils.startActivity(getActivity(), WebViewActivity.class, bundle);
                 } else if (null != screenShot && view.getId() == screenShot.getId() && null != object.getImages()) {
