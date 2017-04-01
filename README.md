@@ -1,7 +1,7 @@
 # magazine
 #### 这是一个自己练手的项目，项目中使用了 google 提供的 todomvp 范例的模式  + rxjava +retrofit ,项目中所用用到的数据皆是来源于 代码家  提供，再次感谢！
 ##### V1.0 效果图：
-  ![主界面](https://github.com/shuangqingfeng/magazineProject/screenShot/raw/master/home.gif)
+  ![主界面](https://github.com/shuangqingfeng/magazineProject/raw/master/screenShot/home.gif)
 ###### 项目用到了如下技术：
 - 项目结构：根据 google 提供的范例[todo-mvp](https://github.com/googlesamples/android-architecture/tree/todo-mvp/) 
 - 网络框架：rxjava + retrofit
