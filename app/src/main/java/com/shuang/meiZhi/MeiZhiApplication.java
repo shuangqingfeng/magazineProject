@@ -6,6 +6,8 @@ import android.content.Context;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
+
 
 /**
  * @author feng
@@ -20,6 +22,7 @@ public class MeiZhiApplication extends Application {
         super.onCreate();
         mContext = this;
         Logger.init().logLevel(LogLevel.FULL);
+        BGASwipeBackManager.getInstance().init(this);
     }
 
     public static Context getApplication() {

@@ -1,9 +1,19 @@
 package com.shuang.meiZhi;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.DragEvent;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,6 +28,8 @@ import com.shuang.meiZhi.beauty.BeautyFragment;
 import com.shuang.meiZhi.ios.IosModule;
 import com.shuang.meiZhi.ios.IosPresenter;
 import com.shuang.meiZhi.ios.IosFragment;
+import com.shuang.meiZhi.utils.StatusBarUtils;
+import com.shuang.meiZhi.utils.ToastUtils;
 import com.shuang.meiZhi.utils.UIUtils;
 import com.shuang.meiZhi.video.VideoFragment;
 
@@ -28,6 +40,8 @@ public class MainActivity extends BaseActivity {
     private static final String IOS_FRAGMENT_TAG = "iosFragment";
     private static final String MEI_ZHI_FRAGMENT_TAG = "meiZhiFragment";
     private static final String VIDEO_FRAGMENT_TAG = "videoFragment";
+    @BindView(R.id.dl_drawLayout)
+    DrawerLayout mDrawerLayout;
     @BindView(R.id.fl_mainContainer)
     FrameLayout mineContainer;
     @BindView(R.id.rg_checkItem)
@@ -40,6 +54,8 @@ public class MainActivity extends BaseActivity {
     RadioButton itemBeauty;
     @BindView(R.id.rb_itemVideo)
     RadioButton itemVideo;
+    @BindView(R.id.ngv_drawView)
+    NavigationView navigationView;
     private AndroidFragment androidFragment;
     private IosFragment iosFragment;
     private BeautyFragment meiZhiFragment;
@@ -47,9 +63,11 @@ public class MainActivity extends BaseActivity {
     private FragmentManager fragmentManager;
     private AndroidPresenter androidPresenter;
     private IosPresenter mIosPresenter;
+    private long mExitTme = 0;
 
     @Override
     protected int getContainerId() {
+
         return R.layout.activity_main;
     }
 
@@ -62,6 +80,33 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
+        navigationView.setItemIconTintList(null);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+//        StatusBarUtils.setColorForDrawerLayout(MainActivity.this,mDrawerLayout,255);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+    }
+
+    @Override
+    public boolean isSupportSwipeBack() {
+        return false;
     }
 
     @Override
@@ -71,6 +116,20 @@ public class MainActivity extends BaseActivity {
         }
         switchFragmentShow(0);
         checkItem.setOnCheckedChangeListener(new CheckItemChangeListener());
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_thems:
+                        ToastUtils.show("更换皮肤");
+                        break;
+                    case R.id.menu_nightMode:
+                        ToastUtils.show("夜间模式");
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     class CheckItemChangeListener implements RadioGroup.OnCheckedChangeListener {
@@ -91,6 +150,11 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     public void switchFragmentShow(int id) {
@@ -163,5 +227,25 @@ public class MainActivity extends BaseActivity {
         if (videoFragment != null) {
             fragmentTransaction.hide(videoFragment);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mDrawerLayout.isDrawerOpen(navigationView)) {
+            mDrawerLayout.closeDrawers();
+            return true;
+        } else if (System.currentTimeMillis() - mExitTme > 2000) {
+            ToastUtils.show("在按一次退出程序");
+            mExitTme = System.currentTimeMillis();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

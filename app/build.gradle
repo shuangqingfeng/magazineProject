@@ -7,8 +7,8 @@ android {
         applicationId "com.shuang.meiZhi"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,6 +52,11 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     // 异步请求适配
     compile 'me.drakeet.multitype:multitype:2.5.0-beta2'
+    //圆形图片裁剪
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8'
+
+
     // 多类型数据展示
     //    compile 'me.drakeet.multitype:multitype:2.4.3'
 }
