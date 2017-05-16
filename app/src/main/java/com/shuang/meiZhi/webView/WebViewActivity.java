@@ -53,6 +53,7 @@ public class WebViewActivity extends BaseActivity {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void initView(Bundle savedInstanceState) {
         mDetails = new WebView(this);

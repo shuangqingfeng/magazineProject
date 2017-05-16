@@ -7,15 +7,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.shuang.meiZhi.R;
-import com.shuang.meiZhi.utils.StatusBarUtil;
-import com.shuang.meiZhi.utils.StatusBarUtils;
-import com.shuang.meiZhi.utils.UIUtils;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,13 +34,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     protected int statusBarColor = 0;
     protected View statusBarView = null;
     protected BGASwipeBackHelper mSwipeBackHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initSwipeBackFinish();
+//        initSwipeBackFinish();
         super.onCreate(savedInstanceState);
 
 //        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        StatusBarUtils.setTranslucent(this);
+
         setContentView(getContainerId());
 
         mButterrKnifeUnbinder = ButterKnife.bind(this);
@@ -60,7 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
                 mBar.setElevation(10.6f);
             }
         }
-
         initView(savedInstanceState);
         initData();
     }
@@ -113,6 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         }
         return super.onOptionsItemSelected(item);
     }
+
     /**
      * 初始化滑动返回。在 super.onCreate(savedInstanceState) 之前调用该方法
      */
@@ -137,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         // 设置触发释放后自动滑动返回的阈值，默认值为 0.3f
         mSwipeBackHelper.setSwipeBackThreshold(0.3f);
     }
+
     /**
      * 是否支持滑动返回。这里在父类中默认返回 true 来支持滑动返回，如果某个界面不想支持滑动返回则重写该方法返回 false 即可
      *
@@ -173,11 +172,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 
     @Override
     public void onBackPressed() {
-        // 正在滑动返回的时候取消返回按钮事件
-        if (mSwipeBackHelper.isSliding()) {
-            return;
-        }
-        mSwipeBackHelper.backward();
+//        // 正在滑动返回的时候取消返回按钮事件
+//        if (mSwipeBackHelper.isSliding()) {
+//            return;
+//        }
+//        mSwipeBackHelper.backward();
+        super.onBackPressed();
     }
+
 
 }

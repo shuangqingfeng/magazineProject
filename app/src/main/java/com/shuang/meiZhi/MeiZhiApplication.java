@@ -21,7 +21,7 @@ public class MeiZhiApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        Logger.init().logLevel(LogLevel.FULL);
+        Logger.init("magazine").logLevel(LogLevel.FULL);
         BGASwipeBackManager.getInstance().init(this);
     }
 

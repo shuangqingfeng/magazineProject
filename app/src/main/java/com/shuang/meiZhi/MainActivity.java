@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.orhanobut.logger.Logger;
 import com.shuang.meiZhi.android.AndroidFragment;
 import com.shuang.meiZhi.android.AndroidModule;
 import com.shuang.meiZhi.android.AndroidPresenter;
@@ -67,7 +69,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected int getContainerId() {
-
         return R.layout.activity_main;
     }
 
@@ -79,29 +80,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
         navigationView.setItemIconTintList(null);
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-//        StatusBarUtils.setColorForDrawerLayout(MainActivity.this,mDrawerLayout,255);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
     }
 
     @Override
@@ -229,23 +208,25 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu, menu);
+//        return true;
+//    }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(navigationView)) {
             mDrawerLayout.closeDrawers();
-            return true;
+
         } else if (System.currentTimeMillis() - mExitTme > 2000) {
             ToastUtils.show("在按一次退出程序");
             mExitTme = System.currentTimeMillis();
-            return true;
+        }else{
+            this.finish();
+            System.exit(0);
         }
-        return super.onKeyDown(keyCode, event);
+
     }
 }
