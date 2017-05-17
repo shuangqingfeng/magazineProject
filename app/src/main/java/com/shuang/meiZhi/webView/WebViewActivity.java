@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 
 import com.shuang.meiZhi.R;
 import com.shuang.meiZhi.base.BaseActivity;
+import com.shuang.meiZhi.utils.StatusBarUtil;
+import com.shuang.meiZhi.utils.StatusBarUtils;
 import com.shuang.meiZhi.utils.UIUtils;
 
 import butterknife.BindView;
@@ -48,12 +50,13 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
+
     @Override
     public boolean canBack() {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         mDetails = new WebView(this);
@@ -94,28 +97,28 @@ public class WebViewActivity extends BaseActivity {
             finish();
         }
         mDetails.setWebViewClient(new WebViewClient() {
+            @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
 
-
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mProgressBar.setVisibility(View.GONE);
+            }
         });
         mDetails.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                } else {
-                    if (View.INVISIBLE == mProgressBar.getVisibility()) {
-                        mProgressBar.setVisibility(View.VISIBLE);
-                    }
-                    mProgressBar.setProgress(newProgress);
-                }
+
+                if (View.GONE == mProgressBar.getVisibility())
+                    mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(newProgress);
                 super.onProgressChanged(view, newProgress);
             }
-
         });
 
     }

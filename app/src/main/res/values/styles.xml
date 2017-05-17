@@ -2,20 +2,14 @@
     <style name="AppTheme" parent="Base.AppTheme">
     </style>
     <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme"/>
-
     <!-- Base application theme. -->
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--选中状态icon的颜色和字体颜色-->
-      <!--  <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue</item>
-        <item name="colorAccent">@color/blue</item>-->
-
+        <item name="android:windowIsTranslucent">true</item>
     </style>
     <!-- 用于开启滑动返回功能的 Activity -->
     <style name="AppTheme.Transparent">
@@ -28,5 +22,11 @@
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center_horizontal</item>
+    </style>
+    <!--更换头像的地步弹窗-->
+    <style name="style_avatar_bottomDialog">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
     </style>
 </resources>

@@ -17,12 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".webView.WebViewActivity"
-        />
-        <activity android:name=".photoDetails.PhotoDetailsActivity"
-        />
-        <activity android:name=".photoDetails.BeautyPhotoDetailsActivity"
-        />
+        <activity android:name=".webView.WebViewActivity"/>
+        <activity android:name=".photoDetails.PhotoDetailsActivity"/>
+        <activity android:name=".photoDetails.BeautyPhotoDetailsActivity"/>
     </application>
 
 </manifest>

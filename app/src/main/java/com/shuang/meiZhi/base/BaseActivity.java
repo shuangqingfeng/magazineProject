@@ -1,7 +1,9 @@
 package com.shuang.meiZhi.base;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -12,7 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.orhanobut.logger.Logger;
 import com.shuang.meiZhi.R;
+import com.shuang.meiZhi.utils.StatusBarUtils;
+import com.shuang.meiZhi.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,35 +36,44 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     Toolbar mToolbar;
     private ActionBar mBar;
     private Unbinder mButterrKnifeUnbinder;
-    protected int statusBarColor = 0;
-    protected View statusBarView = null;
     protected BGASwipeBackHelper mSwipeBackHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        initSwipeBackFinish();
         super.onCreate(savedInstanceState);
-
-//        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(getContainerId());
-
         mButterrKnifeUnbinder = ButterKnife.bind(this);
+        setStatusBarColor();
         if (null != mToolbar) {
             initToolbar(mToolbar);
             setSupportActionBar(mToolbar);
         }
-
-//        StatusBarUtil.setStatusBarColor(this, UIUtils.getColor(R.color.colorPrimary));
+        mBar = getSupportActionBar();
+        mBar.setElevation(0f);
         if (canBack()) {
-            mBar = getSupportActionBar();
             if (mBar != null) mBar.setDisplayHomeAsUpEnabled(true);
-            if (Build.VERSION.SDK_INT >= 21) {
-                mBar.setElevation(10.6f);
-            }
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activityFinish();
+                }
+            });
         }
         initView(savedInstanceState);
         initData();
+    }
+
+    /**
+     * 结束当前页面，如需携带返回自，子类重写此方法
+     */
+    private void activityFinish() {
+        finish();
+    }
+
+    protected void setStatusBarColor() {
+        StatusBarUtils.setColor(this, UIUtils.getColor(R.color.colorPrimary), Color.TRANSPARENT);
     }
 
     protected void transparent19and20() {
@@ -70,6 +84,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         }
     }
 
+    /**
+     * 是否需要返回键
+     *
+     * @return 默认 fasle 不显示  true 显示返回键
+     */
     public boolean canBack() {
         return false;
     }

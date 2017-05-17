@@ -8,15 +8,17 @@
     android:id="@+id/abl_appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:elevation="0dp"
     tools:showIn="@layout/activity_main">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

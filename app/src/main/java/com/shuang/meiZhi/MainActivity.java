@@ -1,25 +1,19 @@
 package com.shuang.meiZhi;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.orhanobut.logger.Logger;
 import com.shuang.meiZhi.android.AndroidFragment;
 import com.shuang.meiZhi.android.AndroidModule;
 import com.shuang.meiZhi.android.AndroidPresenter;
@@ -30,12 +24,14 @@ import com.shuang.meiZhi.beauty.BeautyFragment;
 import com.shuang.meiZhi.ios.IosModule;
 import com.shuang.meiZhi.ios.IosPresenter;
 import com.shuang.meiZhi.ios.IosFragment;
+
 import com.shuang.meiZhi.utils.StatusBarUtils;
 import com.shuang.meiZhi.utils.ToastUtils;
 import com.shuang.meiZhi.utils.UIUtils;
 import com.shuang.meiZhi.video.VideoFragment;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
     private static final String ANDROID_FRAGMENT_TAG = "androidFragment";
@@ -58,6 +54,8 @@ public class MainActivity extends BaseActivity {
     RadioButton itemVideo;
     @BindView(R.id.ngv_drawView)
     NavigationView navigationView;
+    @BindView(R.id.avatar_image)
+    CircleImageView avatarImg;
     private AndroidFragment androidFragment;
     private IosFragment iosFragment;
     private BeautyFragment meiZhiFragment;
@@ -76,6 +74,12 @@ public class MainActivity extends BaseActivity {
     protected void initToolbar(Toolbar toolbar) {
         toolbar.setTitle(UIUtils.getString(R.string.app_name));
 //        toolbar.setlog
+    }
+
+    @Override
+    protected void setStatusBarColor() {
+        StatusBarUtils.setColorForDrawerLayout(MainActivity.this, mDrawerLayout,
+                UIUtils.getColor(R.color.colorPrimary), Color.TRANSPARENT);
     }
 
     @Override
@@ -109,6 +113,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
+        avatarImg.setOnClickListener(new AvatarImgClickListener());
     }
 
     class CheckItemChangeListener implements RadioGroup.OnCheckedChangeListener {
@@ -131,9 +136,14 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    /**
+     * 更换头像
+     */
+    class AvatarImgClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 
     public void switchFragmentShow(int id) {
@@ -223,7 +233,7 @@ public class MainActivity extends BaseActivity {
         } else if (System.currentTimeMillis() - mExitTme > 2000) {
             ToastUtils.show("在按一次退出程序");
             mExitTme = System.currentTimeMillis();
-        }else{
+        } else {
             this.finish();
             System.exit(0);
         }

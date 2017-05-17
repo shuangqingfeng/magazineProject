@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.shuang.meiZhi.R;
 
 /**
  * @author feng
@@ -14,7 +15,7 @@ public class GlideBitmapLoadUtils {
     public static void loadIntoImageView(ImageView view, String url) {
         Glide.with(view.getContext())
                 .load(TextUtils.isEmpty(url) ? null : url)
-                .centerCrop()
+                .placeholder(R.drawable.loading)
                 .into(view);
     }
 }
