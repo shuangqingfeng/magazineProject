@@ -23,10 +23,32 @@
         <item name="android:button">@null</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-    <!--更换头像的地步弹窗-->
+    <!--更换头像的底部弹窗-->
     <style name="style_avatar_bottomDialog">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <!-- dialog默认弹出样式-->
+    <style name="dialogStyle" parent="android:style/Theme.Translucent.NoTitleBar">
+
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

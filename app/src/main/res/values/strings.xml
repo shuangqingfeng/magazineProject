@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">移动杂志社</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
     <string name="networkAvailable">网络异常，请检查网络</string>
     <string name="menuThems">更换皮肤</string>
     <string name="nightMode">夜间模式</string>

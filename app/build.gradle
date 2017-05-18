@@ -57,6 +57,12 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // 手势返回
     compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8'
+    // 订阅和发布事件
+    compile 'com.hwangjr.rxbus:rxbus:1.0.5'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //图片相册选择
+    compile 'com.lzy.widget:imagepicker:0.5.5'  //指定版本
     // 多类型数据展示
     //    compile 'me.drakeet.multitype:multitype:2.4.3'
+
 }
