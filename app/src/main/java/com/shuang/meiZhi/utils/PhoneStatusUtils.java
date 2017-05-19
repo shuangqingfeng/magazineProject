@@ -3,6 +3,7 @@ package com.shuang.meiZhi.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 
 /**
  * @author feng
@@ -25,6 +26,19 @@ public class PhoneStatusUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 判断sdcard是否被挂载
+     */
+
+
+    private boolean hasSdcard() {
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            return true;
         }
         return false;
     }

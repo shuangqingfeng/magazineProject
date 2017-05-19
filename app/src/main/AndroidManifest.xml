@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.shuang.meiZhi">
+          package="com.shuang.meiZhi"
+          xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MeiZhiApplication"
@@ -24,6 +27,16 @@
         <activity android:name=".webView.WebViewActivity"/>
         <activity android:name=".photoDetails.PhotoDetailsActivity"/>
         <activity android:name=".photoDetails.BeautyPhotoDetailsActivity"/>
+        <!--解决 7.0 应用间共享文件-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.shuang.meiZhi.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
     </application>
 
 </manifest>
